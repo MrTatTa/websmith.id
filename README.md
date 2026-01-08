@@ -95,5 +95,4 @@ Penggunaan di luar tujuan edukasi menjadi tanggung jawab masing-masing pengguna.
 ---
 
 ## ✨ Author
-**Bara Paramarta Widanoto**
-**Angger Naufal Abror**
+**Bara Paramarta Widanoto** & **Angger Naufal Abror**
