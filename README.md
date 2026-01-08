@@ -1,6 +1,6 @@
-# 🎓 Campus Service Hub
+# 🎓 WebSmith ID
 
-Campus Service Hub adalah website transaksi bisnis yang menyediakan berbagai layanan untuk kebutuhan mahasiswa dan lingkungan kampus, seperti **joki tugas koding**, **joki tugas non-koding**, **jasa servis laptop/PC**, serta layanan kampus lainnya.
+WebSmith ID adalah website transaksi bisnis yang menyediakan berbagai layanan untuk kebutuhan mahasiswa dan lingkungan kampus, seperti **joki tugas koding**, **joki tugas non-koding**, **jasa servis laptop/PC**, serta layanan kampus lainnya.
 
 Website ini menghubungkan **User (pelanggan)** dengan **Stakeholder (penyedia jasa)** dalam satu sistem terintegrasi mulai dari pemesanan, proses pengerjaan, hingga penyelesaian transaksi.
 
