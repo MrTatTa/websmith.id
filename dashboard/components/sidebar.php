@@ -2,7 +2,9 @@
 $currentPage = basename($_SERVER['PHP_SELF']);
 $layananPages = ['jasa-tugas.php', 'jasa-laprak.php', 'it-consultant.php', 'servis-laptop.php'];
 $isLayananActive = in_array($currentPage, $layananPages);
-$dataPages = ['account-setting.php', 'setting-notification.php'];
+$akunPages = ['account-setting.php', 'setting-notification.php'];
+$isAkunActive = in_array($currentPage, $akunPages);
+$dataPages = ['kategori-jasa.php', 'layanan.php'];
 $isDataActive = in_array($currentPage, $dataPages);
 ?>
 
@@ -37,7 +39,7 @@ $isDataActive = in_array($currentPage, $dataPages);
         <li class="menu-item <?= $isLayananActive ? 'active open' : '' ?>">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
-                <div class="text-truncate" data-i18n="Layouts">Layanan</div>
+                <div class="text-truncate" data-i18n="Layouts">Pusat Layanan</div>
             </a>
 
             <ul class="menu-sub">
@@ -52,24 +54,18 @@ $isDataActive = in_array($currentPage, $dataPages);
                     </a>
                 </li>
                 <li class="menu-item <?= ($currentPage == 'servis-laptop.php') ? 'active' : '' ?>">
-                    <a href="servis-laptop.php" class="menu-link">
+                    <a href="servis-laptop.html" class="menu-link">
                         <div class="text-truncate" data-i18n="Without navbar">Servis Laptop/PC</div>
                     </a>
                 </li>
                 <li class="menu-item <?= ($currentPage == 'it-consultant.php') ? 'active' : '' ?>">
-                    <a href="it-consultant.php" class="menu-link">
+                    <a href="it-consultant.html" class="menu-link">
                         <div class="text-truncate" data-i18n="Fluid">IT Consultant</div>
                     </a>
                 </li>
             </ul>
         </li>
-
-        <!-- Apps & Pages -->
-        <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">DATA SECTION</span>
-        </li>
-        <!-- Pages -->
-        <li class="menu-item <?= $isDataActive ? 'active open' : '' ?>">
+        <li class="menu-item <?= $isAkunActive ? 'active open' : '' ?>">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-dock-top"></i>
                 <div class="text-truncate" data-i18n="User Account">User Account</div>
@@ -87,43 +83,26 @@ $isDataActive = in_array($currentPage, $dataPages);
                 </li>
             </ul>
         </li>
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
-                <div class="text-truncate" data-i18n="Authentications">Authentications</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="auth-login-basic.html" class="menu-link" target="_blank">
-                        <div class="text-truncate" data-i18n="Basic">Login</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="auth-register-basic.html" class="menu-link" target="_blank">
-                        <div class="text-truncate" data-i18n="Basic">Register</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="auth-forgot-password-basic.html" class="menu-link" target="_blank">
-                        <div class="text-truncate" data-i18n="Basic">Forgot Password</div>
-                    </a>
-                </li>
-            </ul>
+
+        <!-- Apps & Pages -->
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">DATA SECTION</span>
         </li>
-        <li class="menu-item">
+        <!-- Pages -->
+        <li class="menu-item <?= $isDataActive ? 'active open' : '' ?>">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-                <div class="text-truncate" data-i18n="Misc">Misc</div>
+                <i class="menu-icon tf-icons bx bx-pie-chart-alt-2"></i>
+                <div class="text-truncate" data-i18n="User Account">Manajemen Data</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="pages-misc-error.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Error">Error</div>
+                <li class="menu-item <?= ($currentPage == 'kategori-jasa.php') ? 'active' : '' ?>">
+                    <a href="kategori-jasa.php" class="menu-link">
+                        <div class="text-truncate" data-i18n="Kategori Jasa">Kategori Jasa</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="pages-misc-under-maintenance.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Under Maintenance">Under Maintenance</div>
+                <li class="menu-item <?= ($currentPage == 'layanan.php') ? 'active' : '' ?>">
+                    <a href="layanan.php" class="menu-link">
+                        <div class="text-truncate" data-i18n="Layanan">Layanan</div>
                     </a>
                 </li>
             </ul>

@@ -313,7 +313,7 @@ if (isset($_POST['delete_account'])) {
                   <!-- /Account -->
                 </div>
                 <!-- HAPUS AKUN -->
-                <!-- <div class="card">
+                <div class="card">
                   <h5 class="card-header">Hapus Akun</h5>
                   <div class="card-body">
                     <div class="mb-6 col-12 mb-0">
@@ -346,37 +346,6 @@ if (isset($_POST['delete_account'])) {
                         <div class="modal-content">
                           <div class="modal-header">
                             <h5 class="modal-title text-danger">Konfirmasi Hapus Akun</h5>
-                          </div>
-                          <div class="modal-body">
-                            <p>
-                              Apakah kamu <strong>benar-benar yakin</strong> ingin menghapus akun ini?
-                            </p>
-                            <p class="text-danger mb-0">
-                              Tindakan ini <strong>tidak dapat dibatalkan</strong>.
-                            </p>
-                          </div>
-                          <div class="modal-footer">
-                            <button class="btn btn-secondary" data-bs-dismiss="modal">
-                              Batal
-                            </button>
-
-                            <form method="POST" class="d-inline">
-                              <button
-                                type="submit"
-                                name="delete_account"
-                                class="btn btn-danger">
-                                Ya, saya yakin
-                              </button>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
-                      <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title text-danger">Konfirmasi Hapus Akun</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                           </div>
 
@@ -400,7 +369,7 @@ if (isset($_POST['delete_account'])) {
                       </div>
                     </div>
                   </div>
-                </div> -->
+                </div>
               </div>
             </div>
           </div>

@@ -3,7 +3,6 @@ require '../config/config.php';
 require '../config/midtrans.php';
 $id = $_SESSION['user_id'];
 $snapToken = null;
-$pay_id = null;
 
 // proteksi login
 // if (!isset($_SESSION['user_id'])) {
@@ -67,26 +66,23 @@ if (isset($_POST['tambah_pesanan'])) {
 }
 
 // PROSES PEMBAYARAN MIDTRANS
-
 if (isset($_GET['pay'])) {
-    $id = (int)$_GET['pay'];
+    // JANGAN gunakan $id di sini, gunakan nama lain
+    $id_pesanan_bayar = (int)$_GET['pay'];
 
     $q = mysqli_query($conn, "
         SELECT * FROM pesanan 
-        WHERE id=$id
-        AND status='menunggu_pembayaran'
+        WHERE id = $id_pesanan_bayar 
+        AND user_id = '$id' -- Validasi: Pesanan ini harus milik user yang sedang login ($id)
+        AND status = 'menunggu_pembayaran'
         AND expired_at > NOW()
     ");
     $p = mysqli_fetch_assoc($q);
 
     if ($p) {
-
-        // ✅ JIKA TOKEN SUDAH ADA → PAKAI ULANG
         if (!empty($p['snap_token'])) {
             $snapToken = $p['snap_token'];
-        }
-        // ✅ JIKA BELUM → BUAT SEKALI
-        else {
+        } else {
             $params = [
                 'transaction_details' => [
                     'order_id' => $p['snap_order_id'],
@@ -98,12 +94,10 @@ if (isset($_GET['pay'])) {
 
             mysqli_query($conn, "
                 UPDATE pesanan 
-                SET snap_token='$snapToken'
-                WHERE id=$id
+                SET snap_token = '$snapToken'
+                WHERE id = $id_pesanan_bayar
             ");
         }
-
-        $expired_at = $p['expired_at']; // ✅ FIX BUG JS
     }
 }
 
@@ -131,6 +125,26 @@ SET status='ditolak'
 WHERE status='pending'
 AND expired_at < NOW();
 ");
+?>
+<?php
+// Letakkan ini di bagian proses PHP (biasanya di atas sebelum include navbar/header)
+
+if (isset($_GET['status'])) {
+    if ($_GET['status'] == 'pending') {
+        $_SESSION['notif'] = [
+            'type' => 'warning',
+            'message' => 'Pembayaran ditunda. Silakan selesaikan pembayaran Anda.'
+        ];
+    } elseif ($_GET['status'] == 'error') {
+        $_SESSION['notif'] = [
+            'type' => 'danger',
+            'message' => 'Pembayaran gagal! Silakan coba lagi.'
+        ];
+    }
+
+    // Bersihkan URL dari parameter status agar notif tidak muncul terus saat refresh
+    echo "<script>window.history.replaceState({}, document.title, window.location.pathname);</script>";
+}
 ?>
 
 <!doctype html>
@@ -204,6 +218,7 @@ AND expired_at < NOW();
                 <div class="content-wrapper">
                     <!-- Content -->
                     <div class="container-xxl flex-grow-1 container-p-y">
+                        <?php include '../components/notification.php'; ?>
                         <!-- Hoverable Table rows -->
                         <div class="card">
                             <div class="card-header d-flex align-items-center justify-content-between">
@@ -525,20 +540,26 @@ AND expired_at < NOW();
 
     <!-- midtrans validation -->
     <?php if ($snapToken): ?>
-        <script src="https://app.sandbox.midtrans.com/snap/snap.js"
-            data-client-key="SB-Mid-client-XXXX"></script>
+        <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-XXXX"></script>
 
         <script>
             window.onload = function() {
                 snap.pay('<?= $snapToken ?>', {
-                    onSuccess: function() {
-                        window.location.href = 'jasa-tugas.php?done=<?= (int)$_GET['pay'] ?>';
+                    onSuccess: function(result) {
+                        // Berhasil, arahkan ke proses penyelesaian
+                        window.location.href = 'jasa-tugas.php?done=<?= $id_pesanan_bayar ?>';
                     },
-                    onPending: function() {
-                        alert('Pembayaran ditunda');
+                    onPending: function(result) {
+                        // Ditunda, arahkan kembali dengan parameter status=pending
+                        window.location.href = 'jasa-tugas.php?status=pending';
                     },
-                    onError: function() {
-                        alert('Pembayaran gagal');
+                    onError: function(result) {
+                        // Gagal, arahkan kembali dengan parameter status=error
+                        window.location.href = 'jasa-tugas.php?status=error';
+                    },
+                    onClose: function() {
+                        // Opsional: jika user menutup modal secara paksa
+                        console.log('User closed the popup');
                     }
                 });
             };

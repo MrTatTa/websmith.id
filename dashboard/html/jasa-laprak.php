@@ -1,3 +1,7 @@
+<?php
+include '../config/config.php';
+$id = $_SESSION['user_id'];
+?>
 <!doctype html>
 
 <html

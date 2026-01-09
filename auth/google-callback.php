@@ -64,52 +64,38 @@ $google_id = mysqli_real_escape_string($conn, $userInfo['id']);
  * 4. Cari user berdasarkan email
  */
 $q = mysqli_query($conn, "
-  SELECT * FROM users
-  WHERE email='$email'
-    AND deleted_at IS NULL
+  SELECT * FROM users 
+  WHERE email='$email' 
   LIMIT 1
 ");
 
 if (mysqli_num_rows($q) > 0) {
-  // USER SUDAH ADA
+
   $user = mysqli_fetch_assoc($q);
 
-  // bind akun google jika belum
-  if (empty($user['google_id'])) {
+  // JIKA AKUN PERNAH DIHAPUS (SOFT DELETE)
+  if ($user['is_active'] == 0) {
     mysqli_query($conn, "
       UPDATE users SET
-        google_id='$google_id',
-        auth_provider='google'
-      WHERE id='{$user['id']}'
+        is_active = 1,
+        deleted_at = NULL,
+        google_id = '$google_id',
+        auth_provider = 'google',
+        updated_at = NOW()
+      WHERE id = '{$user['id']}'
     ");
   }
 
 } else {
-  // AUTO REGISTER
+
+  // AUTO REGISTER USER BARU
   mysqli_query($conn, "
-    INSERT INTO users (
-      nama,
-      email,
-      google_id,
-      auth_provider,
-      is_active,
-      created_at
-    ) VALUES (
-      '$nama',
-      '$email',
-      '$google_id',
-      'google',
-      1,
-      NOW()
-    )
+    INSERT INTO users (nama, email, google_id, auth_provider, is_active)
+    VALUES ('$nama', '$email', '$google_id', 'google', 1)
   ");
 
   $user = mysqli_fetch_assoc(
-    mysqli_query($conn, "
-      SELECT * FROM users
-      WHERE email='$email'
-      LIMIT 1
-    ")
+    mysqli_query($conn, "SELECT * FROM users WHERE email='$email'")
   );
 }
 
